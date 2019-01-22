@@ -1,0 +1,9 @@
+{
+  "name": "Hello23",
+  "description": "This is your second repository",
+  "homepage": "https://github.com",
+  "private": true,
+  "has_issues": true,
+  "has_projects": true,
+  "has_wiki": true
+}
