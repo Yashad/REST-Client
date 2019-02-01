@@ -1,7 +1,7 @@
 {
-  "name": "Hello23",
-  "description": "This is your second repository",
-  "homepage": "https://github.com",
+  "name": "Testing_REST_API",
+  "description": "This is your test repository with issue enabled",
+  "homepage": "https://github.ncsu.edu",
   "private": true,
   "has_issues": true,
   "has_projects": true,

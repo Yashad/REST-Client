@@ -40,30 +40,34 @@ public class testClient extends RestBase {
 		StringEntity requestEntity = new StringEntity(JSON_STRING,ContentType.APPLICATION_JSON);
 		return requestEntity;
 	}
-	//Task1.1
+
+	//Task1: List of all the branches of a repo
 	public void listBranches(String repoOwner,String repoName) throws ClientProtocolException, IOException{
-		restClient= new RestClient();
-		String serviceURI=prop.getProperty("listUnderURL");
+		restClient= new RestClient();//Get the REST Client obj
+		String serviceURI=prop.getProperty("listAllBranchesUnderURL");
 		serviceURI=serviceURI.replace(":owner", repoOwner);
 		serviceURI=serviceURI.replace(":repo", repoName);
-		String URL=prop.getProperty("URL")+serviceURI;
-		String header=prop.getProperty("Authorization");
-		CloseableHttpResponse closebaleHttpResponse = restClient.get(URL,header);
+		String URL=prop.getProperty("URL")+serviceURI;// making final URI
+		String header=prop.getProperty("Authorization");//Adding header authorization 
+		CloseableHttpResponse closebaleHttpResponse = restClient.get(URL,header);//GET call
 		int statusCode = closebaleHttpResponse.getStatusLine().getStatusCode();
 		if(!checkStatus(statusCode)) {
-			System.out.println("Not working 1");
+			System.out.println("ERROR: Task 1 Status Code:"+statusCode);
 			return;
 		}
+		System.out.println("Task 1 Status Code:"+statusCode);
 		String responseString = EntityUtils.toString(closebaleHttpResponse.getEntity(), "UTF-8");
-		JSONArray responseJsonArray = new JSONArray(responseString);
+		JSONArray responseJsonArray = new JSONArray(responseString);//Take the reponse string into a JSON array.
+		System.out.println("List of all the branches of :"+repoName);
 		for (int i = 0; i < responseJsonArray.length(); i++) {
-			JSONObject jsonobject = responseJsonArray.getJSONObject(i);
+			JSONObject jsonobject = responseJsonArray.getJSONObject(i);//Parse the JSON 
 			String name = jsonobject.getString("name");
-			System.out.println(name);
+			System.out.println((i+1)+" : "+name);
+			
 		}
 	}
 
-	//Task 2
+	//Task 2 Creating a repo
 	public void createRepo(String file) throws ClientProtocolException, IOException, ParseException{
 
 		StringEntity requestEntity=getStringEntity(file);
@@ -72,15 +76,22 @@ public class testClient extends RestBase {
 		String URL=prop.getProperty("URL")+serviceURI;
 		String header=prop.getProperty("Authorization");
 		CloseableHttpResponse closebaleHttpResponse = restClient.post(URL,header,requestEntity);
+		
 		int statusCode = closebaleHttpResponse.getStatusLine().getStatusCode();
 		if(!checkStatus(statusCode)) {
-			System.out.println("Not working 2");
+
+			System.out.println("ERROR: Task 2 Status Code:"+statusCode);
 			return;
 		}
-		System.out.println("WORKED 2!!");
+		String responseString = EntityUtils.toString(closebaleHttpResponse.getEntity(), "UTF-8");
+		JSONObject jsonobject = new JSONObject(responseString);
+		String name = jsonobject.getString("name");
+		
+		System.out.println("SUCCESS: Task 2 Status Code:"+statusCode);
+		System.out.println("New repo :  "+name+"  has been created");
 	}
 
-	//Task 3
+	//Task 3 Create an Issue
 	public void createIssue(String repoOwner,String repoName,String file) throws ClientProtocolException, IOException, ParseException{
 
 		StringEntity requestEntity=getStringEntity(file);
@@ -93,12 +104,23 @@ public class testClient extends RestBase {
 		CloseableHttpResponse closebaleHttpResponse = restClient.post(URL,header,requestEntity);
 		int statusCode = closebaleHttpResponse.getStatusLine().getStatusCode();
 		if(!checkStatus(statusCode)) {
-			System.out.println("Not working 3");
+
+			System.out.println("ERROR: Task 3 Status Code:"+statusCode);
 			return;
 		}
-		System.out.println("WORKED3!!");
+		String responseString = EntityUtils.toString(closebaleHttpResponse.getEntity(), "UTF-8");
+		JSONObject jsonobject = new JSONObject(responseString);
+		String url = jsonobject.getString("url"); 
+		String title = jsonobject.getString("title"); 
+		int number = jsonobject.getInt("number"); 
+		
+		System.out.println("SUCCESS: Task 3 Status Code:"+statusCode);
+		
+		System.out.println("Issue has been created  Name: "+title+"   Number: "+number);
+		System.out.println("URL: "+url);
+		
 	}
-	//Task 4
+	//Task 4 adding an assignee, update the respective JSON file with number of assignees you want to add
 	public void addAssignee(String repoOwner,String repoName,String number,String file) throws ClientProtocolException, IOException, ParseException{
 
 		StringEntity requestEntity=getStringEntity(file);
@@ -112,14 +134,16 @@ public class testClient extends RestBase {
 		CloseableHttpResponse closebaleHttpResponse = restClient.post(URL,header,requestEntity);
 		int statusCode = closebaleHttpResponse.getStatusLine().getStatusCode();
 		if(!checkStatus(statusCode)) {
-			System.out.println("Not working 4");
+
+			System.out.println("ERROR: Task 4 Status Code:"+statusCode);
 			return;
 		}
-		System.out.println("WORKED 4!!");
+		
+		System.out.println("SUCCESS: Task 4 Status Code:"+statusCode);
 	}
 
 
-	//Task 5
+	//Task 5 Editing Repo, update the JSON with the fetures you want to edit.
 	public void editRepo(String repoOwner,String repoName,String file) throws ClientProtocolException, IOException, ParseException{
 
 		StringEntity requestEntity=getStringEntity(file);
@@ -127,18 +151,23 @@ public class testClient extends RestBase {
 		String serviceURI=prop.getProperty("editRepoURL");
 		serviceURI=serviceURI.replace(":owner", repoOwner);
 		serviceURI=serviceURI.replace(":repo", repoName);
+		prop.setProperty("name", repoName);
 		String URL=prop.getProperty("URL")+serviceURI;
 		String header=prop.getProperty("Authorization");
 		CloseableHttpResponse closebaleHttpResponse = restClient.patch(URL,header,requestEntity);
 		int statusCode = closebaleHttpResponse.getStatusLine().getStatusCode();
 		if(!checkStatus(statusCode)) {
-			System.out.println("Not working 3");
+			System.out.println("ERROR: Task 5 Status Code:"+statusCode);
 			return;
 		}
-		System.out.println("WORKED5!!");
+		System.out.println("SUCCESS: Task 5 Status Code:"+statusCode);
+		String responseString = EntityUtils.toString(closebaleHttpResponse.getEntity(), "UTF-8");
+		JSONObject jsonobject = new JSONObject(responseString);
+		boolean flag = jsonobject.getBoolean("has_issues"); 
+		System.out.println("Returned Flag:  has_issues:"+flag);
 	}
 
-	//Task 6
+	//Task 6, Listing Reactions
 	public void listReaction(String repoOwner,String repoName,String number) throws ClientProtocolException, IOException{
 		restClient= new RestClient();
 		String serviceURI=prop.getProperty("listReactionURL");
@@ -150,9 +179,11 @@ public class testClient extends RestBase {
 		CloseableHttpResponse closebaleHttpResponse = restClient.get2(URL,header);
 		int statusCode = closebaleHttpResponse.getStatusLine().getStatusCode();
 		if(!checkStatus(statusCode)) {
-			System.out.println("Not working 6");
+			System.out.println("ERROR: Task 6 Status Code:"+statusCode);
 			return;
 		}
+		System.out.println("SUCCESS: Task 6 Status Code:"+statusCode);
+		System.out.println("Below are the reactions: ");
 		String responseString = EntityUtils.toString(closebaleHttpResponse.getEntity(), "UTF-8");
 		JSONArray responseJsonArray = new JSONArray(responseString);
 		for (int i = 0; i < responseJsonArray.length(); i++) {
@@ -160,7 +191,7 @@ public class testClient extends RestBase {
 			String name = jsonobject.getString("content");
 			System.out.println(name);
 		}
-		System.out.println("WORKING yeah ");
+		
 	}
 
 

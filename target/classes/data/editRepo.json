@@ -1,9 +1,10 @@
 {
-  "name": "RepoName Edited",
-  "description": "This is my new name",
-  "homepage": "https://github.com",
+
+  "name": "Testing_REST_API",
+  "description": "Issues are disabled now.",
+  "homepage": "https://github.ncsu.edu",
   "private": false,
-  "has_issues": true,
+  "has_issues": false,
   "has_projects": true,
   "has_wiki": true
 }
