@@ -1,4 +1,3 @@
-# HW4
 
 Instructions to install and run the REST client:
 
@@ -9,7 +8,7 @@ Instructions to install and run the REST client:
 In Eclipse :
 From the menu bar *File > Import > Maven > Existing Maven project > (Browse the project)*
 
-![alt text](https://github.ncsu.edu/ytrived/HW4/blob/master/UpdateMaven.png)
+![alt text](https://github.com/Yashad/REST-Client/blob/master/UpdateMaven.png)
 
 2.Update the **config.properties** under *HW4/src/main/java/config/* with the git token(Update the *Authorization:token*).
 
@@ -36,11 +35,11 @@ To Add assignees change addAssignee.json as follow:
 
 
 **Sample Output:**
-![alt text](https://github.ncsu.edu/ytrived/HW4/blob/master/output1.png)
-![alt text](https://github.ncsu.edu/ytrived/HW4/blob/master/output2.png)
+![alt text](https://github.com/Yashad/REST-Client/blob/master/output1.png)
+![alt text](https://github.com/Yashad/REST-Client/blob/master/output2.png)
 
 
 **ScreenShot:**
-![alt text](https://github.ncsu.edu/ytrived/HW4/blob/master/ScreenShot.png)
+![alt text](https://github.com/Yashad/REST-Client/blob/master/ScreenShot.png)
 
 
