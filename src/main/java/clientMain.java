@@ -1,7 +1,7 @@
 
 import java.util.Scanner;
 
-public class HW4Main {
+public class clientMain {
  public static void main (String []arg) throws Exception {
 	 try {
 		 testClient test= new testClient();
